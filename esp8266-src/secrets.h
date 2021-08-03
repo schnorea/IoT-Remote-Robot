@@ -1,0 +1,92 @@
+#include <pgmspace.h>
+
+#define SECRET
+
+const char ssid[] = "****** ADD YOUR WIFI's SSID HERE ******";
+const char pass[] = "****** PUT YOUR WIFI's PASSWORD HERE ******";
+
+#define THINGNAME "basicPubSub"
+
+const int8_t TIME_ZONE = -5; //NYC(USA): -5 UTC
+
+const int MQTT_PORT = 8883;
+const char MQTT_SUB_TOPIC[] = "robo/cmds";
+// Don't use DST
+const uint8_t DST = 0;
+
+const char MQTT_HOST[] = "****** PUT YOUR AWS IOT CORE MQTT_HOST URL HERE ******";
+// Example this is a bogus url const char MQTT_HOST[] = "ehyiu9uouiy8-ats.iot.us-east-1.amazonaws.com";
+
+// Obtain First CA certificate for Amazon AWS
+// https://docs.aws.amazon.com/iot/latest/developerguide/managing-device-certs.html#server-authentication
+// Copy contents from CA certificate here ▼
+static const char cacert[] PROGMEM = R"EOF(
+-----BEGIN CERTIFICATE-----
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+-----END CERTIFICATE-----
+)EOF";
+
+// Copy contents from XXXXXXXX-certificate.pem.crt here ▼
+static const char client_cert[] PROGMEM = R"KEY(
+-----BEGIN CERTIFICATE----
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+-----END CERTIFICATE-----
+)KEY";
+
+// Copy contents from  XXXXXXXX-private.pem.key here ▼
+static const char privkey[] PROGMEM = R"KEY(
+-----BEGIN RSA PRIVATE KEY-----
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+ZHa3BBNHdYdiCIptqmDmflXQnC8ksN6eM6H91RoAVilAzrTKWZhuAFMNdu9qnU6GkRqXey
+RA4H0v2n3nbwTl2x5FjH5LixqG0IGKMx66PugKiErm452c3jxvrlxQn1PtWQhPY3nCFarf
+FbLW9ZA0GhHZnnmRMzXKsCumUcBQMmSFOBfn9a3Jvg4pzy0vJuIqXlCV6bFFKa1mm0enpJ
+UH4dgCk2YoBgJatHUKBMYKGaDWFdLSYbWyVBm3ceIYVkXilfkzee3kdcwXwepj20hhHu4k
+XJ2mWpEaVzl9XOrV9bq9nQVGDrvMMna81x1GwZTaizkFBcQ88p7VQ7PWB2e0lxzOKBeWy2
+stpmoh5WT0tIl5KSA2xm21csvrmHGcSAhxFVrIEZu4ilOxl4BFiDBPqa8DLytMZw1AzyPa
+-----END RSA PRIVATE KEY-----
+)KEY";
