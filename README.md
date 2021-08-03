@@ -9,15 +9,15 @@ During Covid my nephew, who lives across the state from me, was getting bored co
 ## Remote Play Use Case
 The way my nephew and I would use this is as follows.  
  * I would text my nephew the URL for the web remote.  
- * Once he had the remote up on his phone I would facetime him and he would answer on his iPad. 
+ * Once he had the remote up on his phone I would Facetime/Zoom him and he would answer on his iPad/Laptop. 
  * I would turn on the Robosapien and his IoT Backpack and let it connect to the Wifi and then to AWS.  When the backpack glowed blue (LED in the ESP8266) I knew it was connected.
- * I would give the thumbs up to my nephew and turn my phone with facetime running on it so that he could see the robot.
+ * I would give the thumbs up to my nephew and turn my phone with Facetime or laptop with Zoom running on it so that he could see the robot.
  * My nephew would then begin to control the robot remotely and laughing would ensue.
-
 
 ## Block Diagram
 Here you can see the system block diagram.  
 
+![Example SimpleBox(s)](https://github.com/schnorea/Iot-Remote-Robot/blob/master/assets/Architecture.png?raw=true "Example SimpleBox(s)")
 
 ## The Remote
 The remote is assembled from very basic web tech.  HTML, SVG, Javascript, AJAX and a bit of CSS. Each button of the remote, in the SVG, has the code associated with the three modes the remote can be in attached.  With a click event the Javascript pulls the correct IR code from the button and performs a get to the AWS API Gateway.  You will need to setup your own API gateway for your own robot.  
