@@ -17,7 +17,8 @@ The way my nephew and I would use this is as follows.
 ## Block Diagram
 Here you can see the system block diagram.  
 
-![Example SimpleBox(s)](https://github.com/schnorea/IoT-Remote-Robot/blob/master/assets/Architecture.png?raw=true "Example SimpleBox(s)")
+![Example SimpleBox(s)](https://github.com/schnorea/IoT-Remote-Robot/blob/master/assets/Architecture.png?raw=true "Block Diagram")
+<img src="/assets/Architecture.png?raw=true" alt="drawing" width="500"/>
 
 ## The Remote
 The remote is assembled from very basic web tech.  HTML, SVG, Javascript, AJAX and a bit of CSS. Each button of the remote, in the SVG, has the code associated with the three modes the remote can be in attached.  With a click event the Javascript pulls the correct IR code from the button and performs a get to the AWS API Gateway.  You will need to setup your own API gateway for your own robot.  
