@@ -22,6 +22,8 @@ Here you can see the system block diagram.
 ## The Remote
 The remote is assembled from very basic web tech.  HTML, SVG, Javascript, AJAX and a bit of CSS. Each button of the remote, in the SVG, has the code associated with the three modes the remote can be in attached.  With a click event the Javascript pulls the correct IR code from the button and performs a get to the AWS API Gateway.  You will need to setup your own API gateway for your own robot.  
 
+<img src="/assets/RobotRemote.png?raw=true" alt="drawing" width="600"/>
+
 ## AWS
 In AWS we use S3 to host and server the Web Remotes content.  S3 can be setup to server content by allowing it to be exposed publicly.  Again, this isn’t meant to be a product and is something that isn’t running all the time so quick and dirty.
 
@@ -35,13 +37,13 @@ The IoT Core MQTT broker is setup with a policy that allows commands to by publi
 As mentioned above the backpack is built around a ESP8266 Wifi module I ordered from Amazon (~$6.00).  Around the module are circuitry for the IR LED transmitter, a lithium battery and charging system I stole from a cell phone charging battery.  This is housed in a 3D printed case that was partially designed for this application and partially borrowed from a light dimming project.
 
 ## Possible Improvements
-The ESP8266 is has barely enough power to run this app. I think the problem is the encryption overhead.  As a result of this the IoT backpack sometimes takes a long time to connect as it times out due to potentially poor comms making either the computation take longer. (Anecdotally, it seems to connect better with a better WiFi signal). Improvements port it to ESP32 which I don’t believe will have this problem.
-I think there is just enough performance in an ESP32-CAM to do both the IoT function and stream the video so one idea would be to incorporate the video stream in the Web Remote interface.  This would simplify the use and also mean that player would have a robot eye view (First Person Robot?).
+ * The ESP8266 is has barely enough power to run this app. I think the problem is the encryption overhead.  As a result of this the IoT backpack sometimes takes a long time to connect as it times out due to potentially poor comms making either the computation take longer. (Anecdotally, it seems to connect better with a better WiFi signal). Improvements port it to ESP32 which I don’t believe will have this problem.
+ * I think there is just enough performance in an ESP32-CAM to do both the IoT function and stream the video so one idea would be to incorporate the video stream in the Web Remote interface.  This would simplify the use and also mean that player would have a robot eye view (First Person Robot?).
 
 ## Other uses
 Since building this and having my nephew remotely come over and play a couple of other uses cases have presented themselves. 
-Change channels of TV at home.  Why?
-Turn on Air condition before getting home. Some units have IR remotes.
-Attach it to other IR controlled toys.
+ * Change channels of TV at home.  Why?
+ * Turn on Air condition before getting home. Some units have IR remotes.
+ * Attach it to other IR controlled toys.
+ * If you have other ideas open an issue.
 
-![image](https://user-images.githubusercontent.com/10821682/128093920-b6a80558-c215-4dca-b227-bcc15af8e706.png)
