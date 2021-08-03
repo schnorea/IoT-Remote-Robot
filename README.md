@@ -56,5 +56,6 @@ Since building this and having my nephew remotely come over and play a couple of
  * Change channels of TV at home.  Why?
  * Turn on Air condition before getting home. Some AC units have IR remotes.
  * Attach it to other IR controlled toys.
+ * IoT Slot cars.
  * If you have other ideas open an issue.
 
