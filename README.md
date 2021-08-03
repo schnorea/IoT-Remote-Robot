@@ -36,6 +36,8 @@ The IoT Core MQTT broker is setup with a policy that allows commands to by publi
 ## The Backpack
 As mentioned above the backpack is built around a ESP8266 Wifi module I ordered from Amazon (~$6.00).  Around the module are circuitry for the IR LED transmitter, a lithium battery and charging system I stole from a cell phone charging battery.  This is housed in a 3D printed case that was partially designed for this application and partially borrowed from a light dimming project.
 
+<img src="/assets/IoTBackpackRender.png?raw=true" alt="drawing" width="600"/>
+
 ## Possible Improvements
  * The ESP8266 is has barely enough power to run this app. I think the problem is the encryption overhead.  As a result of this the IoT backpack sometimes takes a long time to connect as it times out due to potentially poor comms making either the computation take longer. (Anecdotally, it seems to connect better with a better WiFi signal). Improvements port it to ESP32 which I don’t believe will have this problem.
  * I think there is just enough performance in an ESP32-CAM to do both the IoT function and stream the video so one idea would be to incorporate the video stream in the Web Remote interface.  This would simplify the use and also mean that player would have a robot eye view (First Person Robot?).
