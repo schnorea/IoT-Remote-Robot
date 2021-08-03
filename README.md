@@ -38,6 +38,14 @@ As mentioned above the backpack is built around a ESP8266 Wifi module I ordered 
 
 <img src="/assets/IoTBackpackRender.png?raw=true" alt="drawing" width="600"/>
 
+### The Ugly Electronics
+Again as this was meant to be quick and dirty nothing elegent was designed to make this remotely pretty.  Old wire wrap board with hand soldered components and the piece de resistance(sp) the power assembly.
+
+
+
+### Time to assemble.
+As I had everything in the basement the hardware didn't take long to build. So, maybe 3 hours which included destroying the battery charger and making everything fit.
+
 ## Possible Improvements
  * The ESP8266 is has barely enough power to run this app. I think the problem is the encryption overhead.  As a result of this the IoT backpack sometimes takes a long time to connect as it times out due to potentially poor comms making either the computation take longer. (Anecdotally, it seems to connect better with a better WiFi signal). Improvements port it to ESP32 which I don’t believe will have this problem.
  * I think there is just enough performance in an ESP32-CAM to do both the IoT function and stream the video so one idea would be to incorporate the video stream in the Web Remote interface.  This would simplify the use and also mean that player would have a robot eye view (First Person Robot?).
