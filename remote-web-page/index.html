@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Robosapien Remote Control</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .mode-orange {
+            fill: orange !important;
+        }
+        .mode-green {
+            fill: rgb(102, 255, 51) !important;
+        }
+        .mode-no-shift {
+            fill: white !important;
+        }
+    </style>
+</head>
+<body class="just-black">
+    <div class="body-container">
+        <div id="control" class="big-img">
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+    var mode_state = 0; 
+
+    function sendCmd(key) {
+        console.log(key);
+        var red_cmd = $(key).attr("red-mode");
+        var cmd = red_cmd;
+        var green_cmd = $(key).attr("green-mode");
+        var orange_cmd = $(key).attr("orange-mode");
+
+        if (mode_state == 0) {
+            cmd = red_cmd;
+        }
+        if (mode_state == 1) {
+            cmd = green_cmd;
+        }
+        if (mode_state == 2) {
+            cmd = orange_cmd;
+        }
+
+        // ****** HERE: Change this URL to your API Gateway interface to the Lambda function ******
+        var url = "https://***********.execute-api.us-east-1.amazonaws.com/prod/" + cmd;
+        $.ajax({
+                 method: "GET",
+                 url: url
+        });
+    }
+
+    $("#control").load("robosapien_control2.svg", function() {
+
+        $(".key").on("click", function(){
+            sendCmd(this);
+        });
+
+        $("#select").on("click", function(){
+            console.log("Select shift");
+            if (mode_state == 0) {
+                mode_state = 1;
+                $( "#mode-led" ).removeClass( "mode-no-shift" );
+                $( "#mode-led" ).addClass( "mode-green" );
+            }
+            else if (mode_state == 1) {
+                mode_state = 2;
+                $( "#mode-led" ).removeClass( "mode-green" );
+                $( "#mode-led" ).addClass( "mode-orange" );
+            }
+            else if (mode_state == 2) {
+                mode_state = 0;
+                $( "#mode-led" ).removeClass( "mode-orange" );
+                $( "#mode-led" ).addClass( "mode-no-shift" );
+            }
+        });
+        // svg loaded and click events applied
+    });
+    
+    // Movement Commands (no shift)
+    // $80 - turn right (on left side of remote)
+    // $81 - right arm up (upper left button on remote)
+    // $82 - right arm out
+    // $83 - tilt body right
+    // $84 - right arm down
+    // $85 - right arm in
+    // $86 - walk forward
+    // $87 - walk backward
+    // $88 - turn left (on right side of remote)
+    // $89 - left arm up (upper right button on remote)
+    // $8A - left arm out
+    // $8B - tilt body left
+    // $8C - left arm down
+    // $8D - left arm in
+    // $8E - stop 
+
+    // Programming Commands (no shift)
+    // $90 - P (Master Command Program)
+    // $91 - P>> (Program Play, the one on the bottom)
+    // $92 - R>> (Right sensor program)
+    // $93 - L>> (Left sensor program)
+    // $94 - S>> (Sonic sensor program)
+
+    // GREEN shift commands
+    // $A0 - right turn step
+    // $A1 - right hand thump
+    // $A2 - right hand throw
+    // $A3 - sleep
+    // $A4 - right hand pickup
+    // $A5 - lean backward
+    // $A6 - forward step
+    // $A7 - backward step
+    // $A8 - left turn step
+    // $A9 - left hand thump
+    // $AA - left hand throw
+    // $AB - listen
+    // $AC - left hand pickup
+    // $AD - lean forward
+    // $AE - reset
+    // $B0 - Execute (master command program execute) 
+
+    // $B1 - Wakeup
+    // $B2 - Right (right sensor program execute)
+    // $B3 - Left (left sensor program execute)
+    // $B4 - Sonic (sonic sensor program execute) 
+
+    // ORANGE shift commands
+    // $C0 - right hand strike 3
+    // $C1 - right hand sweep
+    // $C2 - burp
+    // $C3 - right hand strike 2
+    // $C4 - high 5
+    // $C5 - right hand strike 1
+    // $C6 - bulldozer
+    // $C7 - oops (fart)
+    // $C8 - left hand strike 3
+    // $C9 - left hand sweep
+    // $CA - whistle
+    // $CB - left hand strike 2
+    // $CC - talkback
+    // $CD - left hand strike 1
+    // $CE - roar
+    // $D0 - All Demo
+    // $D1 - Power Off (drop snow-globe and say "Rosebud")
+    // $D2 - Demo 1 (Karate skits)
+    // $D3 - Demo 2 (Rude skits)
+    // $D4 - Dance
+    // NOTES:
+    // add $08 to go from right-side commands to left-side commands.
+    // add $20 to command bytes for the GREEN shift (ie. $Ax and $Bx range)
+    // add $40 to command bytes for the ORANGE shift (ie. $Cx and $Dx range) 
+
+    </script>
+</body>
