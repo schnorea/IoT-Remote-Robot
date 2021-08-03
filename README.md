@@ -1,7 +1,7 @@
 # IoT-Remote-Robot
-This quick and dirty IoT enabled InfraRed Remote control is a way to remotely control a Robosapien Robot. It uses web interface that looks like the remote control that comes with the Robosapien, AWS S3 to serve the web page, API Gateway receive the commands from the web remote, and processes these commands in a Lambda function that uses http to publish the command to an AWS IoT Core MQTT broker.  The Robot has a backpack that is 3D printed that hooks to its back.  Out of the backpack is a wire stalk that look like a bent antenna that holds an IR LED and that connects to electronics in the backpack.  The IR stalk is pointed out the head of the Robosapien and directs the IR light to the IR receive located there.  Inside the backpack there is a driver circuit for the IR LED, a ESP8266 (Could easily be converted to a ESP32) that has a WIFI module. Flashed into the ESP8266 is a firmware to access the local WIFI AP, create a secure connection to AWS IoT Core's MQTT broker and the logic to subscribe to the command messages originating in the Lambda function mentioned above. The backpack also contains the insides of a USB charging battery that has a lithium battery and the circuitry to charge from a 5 volt source and to provide 5 V to the ESP8266 and the IR LED. There are some diagrams, images and model rendering below.
+This quick and dirty IoT enabled InfraRed Remote control is a way to remotely control a Robosapien Robot. It uses a web interface that looks like the remote control that comes with the Robosapien, AWS S3 to serve the web page, API Gateway receive the commands from the web remote, and processes these commands in a Lambda function that uses http to publish the command to an AWS IoT Core MQTT broker.  The Robot has a backpack that is 3D printed that hooks to its back.  Out of the backpack is a wire stalk that looks like a bent antenna that holds an IR LED and that connects to electronics in the backpack.  The IR stalk is pointed out the head of the Robosapien and directs the IR light to the IR receive located in the robots head.  Inside the backpack there is a driver circuit for the IR LED, a ESP8266 (Could easily be converted to a ESP32) that has a WIFI module. Flashed into the ESP8266 is a firmware to access the local WIFI AP, create a secure connection to AWS IoT Core's MQTT broker and the logic to subscribe to the command messages originating in the Lambda function mentioned above. The backpack also contains the insides of a USB charging battery that has a lithium battery and the circuitry to charge from a 5 volt source and to provide 5 V to the ESP8266 and the IR LED. There are some diagrams, images and model renderings below.
 
-WARNING: This is a quick and dirty project. Normal engineering rigor and cyber security has not been applied here and your UX might vary.
+## WARNING: This is a quick and dirty project. Normal engineering rigor and cyber security has not been applied here and your UX might vary.
 
 ## Background
 During Covid my nephew, who lives across the state from me, was getting bored couped up at home with my sister. I would call and facetime and we would crack jokes to each other but couldn't really play together. I was thinking about how we could make it so we could remotely play and thought of those things in my house that could be remotely controlled.  I had gotten the Robosapien as a gag gift years ago for Christmas and this project was born.
@@ -39,7 +39,7 @@ As mentioned above the backpack is built around a ESP8266 Wifi module I ordered 
 <img src="/assets/IoTBackpackRender.png?raw=true" alt="drawing" width="600"/>
 
 ### The Ugly Electronics
-Again as this was meant to be quick and dirty nothing elegent was designed to make this remotely pretty.  Old wire wrap board with hand soldered components and the piece de resistance(sp) the power assembly.
+Again as this was meant to be quick and dirty nothing elegent was designed to make this remotely pretty.  Old wire wrap board with hand soldered components and the piece de resistance(sp) the power supply assembly.
 
 
 
@@ -54,7 +54,7 @@ As I had everything in the basement the hardware didn't take long to build. So, 
 ## Other uses
 Since building this and having my nephew remotely come over and play a couple of other uses cases have presented themselves. 
  * Change channels of TV at home.  Why?
- * Turn on Air condition before getting home. Some units have IR remotes.
+ * Turn on Air condition before getting home. Some AC units have IR remotes.
  * Attach it to other IR controlled toys.
  * If you have other ideas open an issue.
 
