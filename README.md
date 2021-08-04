@@ -38,13 +38,16 @@ As mentioned above the backpack is built around a ESP8266 Wifi module I ordered 
 
 <img src="/assets/IoTBackpackRender.png?raw=true" alt="drawing" width="600"/>
 
-<img src="/assets/IoTBackpackRender.png?raw=true" alt="drawing" width="600"/>
-
+<img src="/assets/Real-IoT-Backpack.png?raw=true" alt="drawing" width="600"/>
 
 ### The Ugly Electronics
 Again as this was meant to be quick and dirty nothing elegent was designed to make this remotely pretty.  Old wire wrap board with hand soldered components and the piece de resistance(sp) the power supply assembly.
 
+<img src="/assets/Electronics-inside.png?raw=true" alt="drawing" width="600"/>
 
+<img src="/assets/mainboard.png?raw=true" alt="drawing" width="600"/>
+
+<img src="/assets/IRLED.png?raw=true" alt="drawing" width="600"/>
 
 ### Time to assemble.
 As I had everything in the basement the hardware didn't take long to build. So, maybe 3 hours which included destroying the battery charger and making everything fit.
